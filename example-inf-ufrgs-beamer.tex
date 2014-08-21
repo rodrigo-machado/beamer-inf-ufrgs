@@ -1,0 +1,168 @@
+\documentclass[xcolor=dvipsnames,pdf,10pt]{beamer}
+\usetheme{inf-ufrgs}
+
+%%% Encoding and Fonts
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usefonttheme{professionalfonts}
+\usepackage{lmodern}
+\usepackage[small]{eulervm}
+
+
+%%% EASY ENUMERATIONS
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\bd}{\begin{description}}
+\newcommand{\ed}{\end{description}}
+\newcommand{\tm}{\item}
+
+%%% THEOREMS, DEFINITIONS, ETC... 
+\newcommand{\defn}{\textcolor{blue}{\textbf{\textrm{Definition:\ }}}}
+\newcommand{\thm}{\textcolor{OliveGreen}{\textbf{\textrm{Theorem:\ }}}}
+\newcommand{\lem}{\textcolor{OliveGreen!50!red}{\textbf{\textrm{Lemma:\ }}}}
+\newcommand{\crlr}{\textcolor{green!50!orange!80!black}{\textbf{\textrm{Corolary:\ }}}}
+\newcommand{\prf}{\textcolor{Red}{\textbf{\textrm{Proof:\ }}}}
+\newcommand{\exmp}{\textcolor{WildStrawberry}{\textbf{\textrm{Example:\ }}}}
+\newcommand{\rmk}{\textcolor{Purple}{\textbf{\textrm{Remark:\ }}}}
+\newcommand{\excs}{\textcolor{Brown}{\textbf{\textrm{Exercise:\ }}}}
+\newcommand{\qstn}{\textcolor{WildStrawberry!90!black}{\textbf{\textrm{Question:\ }}}}
+\newcommand{\ansr}{\textcolor{violet}{\textbf{\textrm{Answer:\ }}}}
+\newcommand{\notn}{\textcolor{gray!50!black}{\textbf{\textrm{Notation:\ }}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title     [Example presentation]      {Example presentation}
+\subtitle                              {Addressing multiple topics}
+\author    [Author]                    {Author\\ \texttt{author@inf.ufrgs.br}}
+\institute                             {\inftitle} 
+\date                                  {Some day in 2014}
+%%% O texto entre [ ] vai aparecer na barra inferior...
+
+\renewcommand{\contentstitle}{Outline of this talk}  
+%%% Título usado nos slides de seção introduzidos automaticamente
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{listings}
+\lstset{language=Java,basicstyle=\ttfamily}
+
+\begin{document}
+
+\titlepageINF
+
+\tableofcontentsINF
+
+\section{About $e$} 
+
+%----------------------------------------------------------------------------------%
+\begin{frame}[allowframebreaks]{The constant $e$}
+
+\ 
+
+\defn 
+\[e =   \lim_{n \to \infty} \left(1 + \frac{1}{n}\right)^n \]
+
+
+\ 
+
+\prf 
+\be
+\tm $\ln$ in both sides.
+  \[ 1 =   \ln \left[ \lim_{n \to \infty} \left(1 + \frac{1}{n}\right)^n \right] \]
+\tm $\lim$ out of $\ln$ (due to continuity).
+  \[ 1 =  \lim_{n \to \infty}  \ln \left[  \left(1 + \frac{1}{n}\right)^n \right] \]
+\tm $n$ out of $\ln$.
+  \[ 1 =  \lim_{n \to \infty}  n \ln \left(1 + \frac{1}{n}\right)  \]
+\tm $n = \frac{1}{r}$.
+  \[ 1 =  \lim_{r \to 0}  \frac{1}{r} \ln (1 + r) \]
+\tm sum $0 = \ln(1)$.
+  \[ 1 =  \lim_{r \to 0}  \frac{ \ln (1 + r) + \ln(1)}{r} \]
+\tm definition of derivative of $\ln$ calculated at $1$.
+ \[ 1 =  \left. \ln'(x)\right\vert_{x=1} \]
+ \[ 1 =  \left. \frac{1}{x}\right\vert_{x=1} \]
+ \[ 1 = 1 \]
+\ee
+
+\hfill $\qed$
+\end{frame}
+%----------------------------------------------------------------------------------%
+
+
+\section{About functions}
+
+
+%----------------------------------------------------------------------------------%
+\begin{frame}{Taylor expansion}{also known as polynomial expansion}
+
+
+
+\defn 
+\[  f(x) = \sum_{n=0}^{\infty} \frac{f\ \!^{(n)}(0) x^n}{n!}   \]
+
+\pause 
+
+\ 
+
+\ 
+
+Expanding...
+\[ f(x) = \pause f(0) + \pause f'(0)x + \pause \frac{f''(0)x^2}{2!} + \pause \frac{f'''(0)x^3}{3!} + \ldots \]
+\end{frame}
+%----------------------------------------------------------------------------------%
+
+
+
+\section{About the World Wide Web}
+
+
+%----------------------------------------------------------------------------------%
+\begin{frame}{Some important websites}
+There are very interesting places on the web
+\bi
+\tm the 1st one is the most famous search engine \cite{1}.
+\tm the 2nd one is a remarkable online encyclopedia \cite{2}.
+\ei
+\end{frame}
+%----------------------------------------------------------------------------------%
+
+
+
+%------------------------------------------------
+\begin{frame}[fragile]{Some Java code}{}
+
+\begin{lstlisting}
+public class MainClass {
+  public static void main(String[] args) {
+    int limit = 20;
+    int sum = 0;
+    int i = 1;
+
+    while (i <= limit) {
+      sum += i++;
+    }
+    System.out.println("sum = " + sum);
+  }
+}
+
+\end{lstlisting}
+
+\end{frame}
+%------------------------------------------------
+
+
+%----------------------------------------------------------------------------------%
+\begin{frame}{References}
+\begin{thebibliography}{XX}
+\bibitem[Google]{1} {\emph{Google:} \url{http://www.google.com}}
+\bibitem[Wikipedia]{2} {\emph{Wikipedia:} \url{http://www.wikipedia.com}}
+\end{thebibliography}
+\end{frame}
+%----------------------------------------------------------------------------------%
+
+
+
+\titlepageINF
+
+
+\end{document}

@@ -1,0 +1,360 @@
+\ProvidesPackage{beamerthemeinf-ufrgs}[2014/08/20 for beamer 3.01]
+
+% A beamer theme for presentations at INF-UFRGS
+% 
+% Author: Rodrigo Machado <rma@inf.ufrgs.br>
+% Version: 0.5
+
+\mode<presentation>
+
+%\RequirePackage{beamerprosper}
+
+%%% Tests for other engines
+\RequirePackage{ifpdf}
+\RequirePackage{ifxetex}
+\RequirePackage{ifluatex}
+
+%%% EXPAND SOME TEX FEATURES (e.g. number of buffers)
+\RequirePackage{etex}
+
+%%% REQUIRED TO DRAW THE INF-UFRGS LOGO
+\RequirePackage{tikz}
+
+%%%% FONT COLOR
+\setbeamercolor{normal text}{fg=blue!15!black!80}
+
+%%% BETTER INTERLINE SPACE
+\usepackage{setspace} \setstretch{1}
+
+%%% BETTER MARGIN SPACE
+\setbeamersize{text margin left=.6cm}
+\setbeamersize{text margin right=.6cm}
+
+%%% BETTER ITEMIZE SPACE
+%
+%% from :  http://blog.nguyenvq.com/2011/06/14/modify-spacings-in-listing-itemizeenumerate-environments-for-latex-beamer/
+%%% SPACING BETWEEN ITEMS FOR BEAMER
+%%% following lets me add length between items
+%%% http://tex.stackexchange.com/questions/16793/global-setting-of-spacing-between-items-in-itemize-environment-for-beamer
+%% \let\oldframe\frame
+%% \renewcommand{\frame}{
+%% \oldframe
+%% \let\olditemize\itemize
+%% %%\renewcommand\itemize{\olditemize\addtolength{\itemsep}{0.5\baselineskip}}
+%% \renewcommand\itemize{\olditemize\addtolength{\parskip}{0.5\baselineskip}} %% this affects nested list (itemize) as well
+%% }
+\newlength{\wideitemsep}
+\setlength{\wideitemsep}{\itemsep}
+\addtolength{\wideitemsep}{.04\baselineskip}
+\let\olditem\item
+\renewcommand{\item}{\setlength{\itemsep}{\wideitemsep}\olditem}
+%%%\usepackage{enumitem} %% traditional way to modify listing (itemize and enumerate) properties...but beamer has its own definition
+%%% NESTED LISTS
+%%% http://tex.stackexchange.com/questions/20654/length-between-nested-lists
+\setbeamertemplate{itemize/enumerate subbody begin}{\vspace{0.25\baselineskip}}
+%\setbeamertemplate{itemize/enumerate subbody end}{\vspace{0.05\baselineskip}}
+%%% MORE OPTIONS http://tex.stackexchange.com/questions/11168/change-bullet-style-formatting-in-beamer
+\setlength{\leftmargini}  {0.5cm}
+\setlength{\leftmarginii} {0.5cm}
+\setlength{\leftmarginiii}{0.5cm}
+
+
+%%% FONT OPTIONS FOR SLIDE STRUCTURE
+\setbeamerfont{title}{series=\bfseries}
+\setbeamerfont{frametitle}{series=\bfseries}
+\setbeamerfont{block title}{family=\rmfamily}
+\setbeamerfont{block title}{series=\bfseries}
+\setbeamerfont{block title}{size=\normalsize}
+
+
+%%% AUTOMATIC TABLE OF CONTENTS
+\newcommand{\contentstitle}{Contents}
+\AtBeginSection[] 
+{
+  \begin{frame}<beamer>
+    \frametitle{\contentstitle}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+%%% XELATEX and PDFLATEX differences in LOGO POSITIONING 
+
+\ifxetex  % running with XeTeX
+  \newcommand{\putlogo} %%% MODIFY LOGO POSITIONING 
+  {\pgfputat {\pgfxy(10.18-0.001\beamer@tempdim, 2.38-0.002\beamer@tempdim)}  {\pgfbox[right,top]{\INFLOGO{-0.01+0.0018\beamer@tempdim}}}}
+  
+\else    % running with PDFTeX or LuaTeX
+  \usepackage[protrusion=true,expansion=true]{microtype} % better presentation
+  \newcommand{\putlogo} %%% LOGO POSITIONING FOR PDFLATEX
+  {\pgfputat {\pgfxy(-0.15-0.005\beamer@tempdim, -0.05+0.028\beamer@tempdim)} {\pgfbox[right,top]{\INFLOGO{-0.01+0.0018\beamer@tempdim}}}}
+  
+\fi
+
+
+%%% DONT SHOW NAVIGATION BUTTONS 
+\setbeamertemplate{navigation symbols}{}
+
+
+%%% COLOR AND STYLE CUSTOMIZATION 
+\usecolortheme[RGB={170,0,0}]{structure}
+\usecolortheme{orchid}
+\setbeamercolor{normal text}{fg=black}
+\useinnertheme[shadow]{rounded}
+\setbeamertemplate{items}[default] 
+\setbeamertemplate{sections/subsections in toc}[default]
+
+\hypersetup{
+   colorlinks,
+   urlcolor=blue!70!black,
+   linkcolor=red!70!black,
+   backref=true
+}
+
+
+
+%%%%%% USER COMMANDS %%%%%%
+
+%%% INSERT PPGC LOGO
+\newcommand{\ppgc}{
+\begin{minipage}{3cm}%
+\begin{flushright}%
+\INFLOGO{0.08}%
+\end{flushright}%
+\end{minipage}%
+\begin{minipage}{6cm}%
+\begin{tabular}{l}%
+Programa de P\'{o}s Gradua\c{c}\~{a}o em Computa\c{c}\~{a}o \\%
+Instituto de Inform\'{a}tica \\%
+Universidade Federal do Rio Grande do Sul \\%
+Porto Alegre, Brasil\\%
+\end{tabular}%
+\end{minipage}%
+}
+
+%%% INSERT INF LOGO
+\newcommand{\inftitle}{%
+\begin{minipage}{2cm}%
+\begin{flushright}%
+\INFLOGO{0.07}% 
+\end{flushright}%
+\end{minipage}%
+\begin{minipage}{5.5cm}%
+\begin{tabular}{l}%
+Instituto de Inform\'{a}tica \\%
+Universidade Federal do Rio Grande do Sul \\%
+Porto Alegre, Brasil \\%
+\href{http://www.inf.ufrgs.br}{\color{black}http://www.inf.ufrgs.br}%
+\end{tabular}%
+\end{minipage}%
+}
+
+
+%%% TITLEPAGE
+\newcommand{\titlepageINF}
+{
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+}
+
+
+%%% TABLE OF CONTENTS
+\newcommand{\tableofcontentsINF}
+{
+\begin{frame}{\contentstitle}
+\tableofcontents
+\end{frame}
+}
+
+%%% DRAW INF-UFRGS LOGO (SCALED BY ARGUMENT)
+\newcommand{\INFLOGO}[1]
+{
+% Created by Eps2pgf 0.7.0 (build on 2008-08-24) on Sat Nov 13 16:20:21 BRST 2010
+\begin{tikzpicture}[scale=#1]
+\pgfpathmoveto{\pgfqpoint{0cm}{-0.035cm}}
+\pgfpathlineto{\pgfqpoint{20.32cm}{-0.035cm}}
+\pgfpathlineto{\pgfqpoint{20.32cm}{12.453cm}}
+\pgfpathlineto{\pgfqpoint{0cm}{12.453cm}}
+\pgfpathclose
+\pgfusepath{clip}
+\begin{pgfscope}
+\begin{pgfscope}
+\pgfpathmoveto{\pgfqpoint{0cm}{-0.035cm}}
+\pgfpathlineto{\pgfqpoint{20.32cm}{-0.035cm}}
+\pgfpathlineto{\pgfqpoint{20.32cm}{12.453cm}}
+\pgfpathlineto{\pgfqpoint{0cm}{12.453cm}}
+\pgfpathclose
+\pgfusepath{clip}
+\begin{pgfscope}
+\pgfpathmoveto{\pgfqpoint{0cm}{12.444cm}}
+\pgfpathlineto{\pgfqpoint{20.32cm}{12.444cm}}
+\pgfpathlineto{\pgfqpoint{20.32cm}{-0.009cm}}
+\pgfpathlineto{\pgfqpoint{0cm}{-0.009cm}}
+\pgfpathclose
+\pgfusepath{clip}
+\definecolor{eps2pgf_color}{rgb}{0.141176,0.12549,0.129412}\pgfsetstrokecolor{eps2pgf_color}\pgfsetfillcolor{eps2pgf_color}
+\pgfpathmoveto{\pgfqpoint{17.696cm}{2.985cm}}
+\pgfpathcurveto{\pgfqpoint{17.448cm}{2.989cm}}{\pgfqpoint{17.216cm}{2.877cm}}{\pgfqpoint{17.149cm}{2.611cm}}
+\pgfpathcurveto{\pgfqpoint{16.969cm}{1.89cm}}{\pgfqpoint{17.956cm}{2.198cm}}{\pgfqpoint{18.074cm}{1.762cm}}
+\pgfpathcurveto{\pgfqpoint{18.117cm}{1.604cm}}{\pgfqpoint{17.888cm}{1.517cm}}{\pgfqpoint{17.769cm}{1.524cm}}
+\pgfpathcurveto{\pgfqpoint{17.572cm}{1.526cm}}{\pgfqpoint{17.468cm}{1.658cm}}{\pgfqpoint{17.416cm}{1.834cm}}
+\pgfpathlineto{\pgfqpoint{17.064cm}{1.834cm}}
+\pgfpathcurveto{\pgfqpoint{17.119cm}{1.206cm}}{\pgfqpoint{18.228cm}{0.986cm}}{\pgfqpoint{18.431cm}{1.623cm}}
+\pgfpathcurveto{\pgfqpoint{18.559cm}{2.025cm}}{\pgfqpoint{18.192cm}{2.197cm}}{\pgfqpoint{17.875cm}{2.28cm}}
+\pgfpathcurveto{\pgfqpoint{17.764cm}{2.308cm}}{\pgfqpoint{17.545cm}{2.345cm}}{\pgfqpoint{17.509cm}{2.476cm}}
+\pgfpathcurveto{\pgfqpoint{17.417cm}{2.811cm}}{\pgfqpoint{17.953cm}{2.674cm}}{\pgfqpoint{18.051cm}{2.469cm}}
+\pgfpathlineto{\pgfqpoint{18.404cm}{2.469cm}}
+\pgfpathcurveto{\pgfqpoint{18.357cm}{2.783cm}}{\pgfqpoint{18.014cm}{2.98cm}}{\pgfqpoint{17.696cm}{2.985cm}}
+\pgfpathclose
+\pgfpathmoveto{\pgfqpoint{16.076cm}{2.975cm}}
+\pgfpathcurveto{\pgfqpoint{15.87cm}{2.974cm}}{\pgfqpoint{15.663cm}{2.901cm}}{\pgfqpoint{15.523cm}{2.748cm}}
+\pgfpathcurveto{\pgfqpoint{14.863cm}{2.027cm}}{\pgfqpoint{15.717cm}{0.799cm}}{\pgfqpoint{16.57cm}{1.446cm}}
+\pgfpathlineto{\pgfqpoint{16.605cm}{1.27cm}}
+\pgfpathlineto{\pgfqpoint{16.817cm}{1.27cm}}
+\pgfpathlineto{\pgfqpoint{16.817cm}{2.152cm}}
+\pgfpathlineto{\pgfqpoint{16.146cm}{2.152cm}}
+\pgfpathlineto{\pgfqpoint{16.146cm}{1.905cm}}
+\pgfpathlineto{\pgfqpoint{16.499cm}{1.905cm}}
+\pgfpathcurveto{\pgfqpoint{16.479cm}{1.83cm}}{\pgfqpoint{16.461cm}{1.76cm}}{\pgfqpoint{16.41cm}{1.693cm}}
+\pgfpathcurveto{\pgfqpoint{15.855cm}{1.023cm}}{\pgfqpoint{15.209cm}{2.627cm}}{\pgfqpoint{16.076cm}{2.671cm}}
+\pgfpathcurveto{\pgfqpoint{16.351cm}{2.681cm}}{\pgfqpoint{16.479cm}{2.399cm}}{\pgfqpoint{16.781cm}{2.399cm}}
+\pgfpathcurveto{\pgfqpoint{16.759cm}{2.774cm}}{\pgfqpoint{16.419cm}{2.976cm}}{\pgfqpoint{16.076cm}{2.975cm}}
+\pgfpathclose
+\pgfpathmoveto{\pgfqpoint{14.329cm}{2.961cm}}
+\pgfpathcurveto{\pgfqpoint{14.099cm}{2.959cm}}{\pgfqpoint{13.855cm}{2.928cm}}{\pgfqpoint{13.677cm}{2.928cm}}
+\pgfpathlineto{\pgfqpoint{13.677cm}{1.27cm}}
+\pgfpathlineto{\pgfqpoint{14.03cm}{1.27cm}}
+\pgfpathlineto{\pgfqpoint{14.03cm}{1.94cm}}
+\pgfpathcurveto{\pgfqpoint{14.573cm}{1.94cm}}{\pgfqpoint{14.665cm}{1.797cm}}{\pgfqpoint{14.735cm}{1.27cm}}
+\pgfpathlineto{\pgfqpoint{15.088cm}{1.27cm}}
+\pgfpathcurveto{\pgfqpoint{15.031cm}{1.565cm}}{\pgfqpoint{15.053cm}{1.879cm}}{\pgfqpoint{14.806cm}{2.081cm}}
+\pgfpathcurveto{\pgfqpoint{15.112cm}{2.249cm}}{\pgfqpoint{15.142cm}{2.712cm}}{\pgfqpoint{14.805cm}{2.881cm}}
+\pgfpathcurveto{\pgfqpoint{14.678cm}{2.945cm}}{\pgfqpoint{14.508cm}{2.962cm}}{\pgfqpoint{14.329cm}{2.961cm}}
+\pgfpathclose
+\pgfpathmoveto{\pgfqpoint{10.572cm}{2.928cm}}
+\pgfpathcurveto{\pgfqpoint{10.572cm}{2.519cm}}{\pgfqpoint{10.452cm}{1.878cm}}{\pgfqpoint{10.678cm}{1.517cm}}
+\pgfpathcurveto{\pgfqpoint{10.9cm}{1.164cm}}{\pgfqpoint{11.675cm}{1.154cm}}{\pgfqpoint{11.894cm}{1.517cm}}
+\pgfpathcurveto{\pgfqpoint{12.106cm}{1.877cm}}{\pgfqpoint{11.984cm}{2.526cm}}{\pgfqpoint{11.984cm}{2.928cm}}
+\pgfpathlineto{\pgfqpoint{11.631cm}{2.928cm}}
+\pgfpathcurveto{\pgfqpoint{11.631cm}{2.611cm}}{\pgfqpoint{11.754cm}{1.963cm}}{\pgfqpoint{11.569cm}{1.693cm}}
+\pgfpathcurveto{\pgfqpoint{11.418cm}{1.48cm}}{\pgfqpoint{11.065cm}{1.526cm}}{\pgfqpoint{10.96cm}{1.764cm}}
+\pgfpathcurveto{\pgfqpoint{10.833cm}{2.081cm}}{\pgfqpoint{10.925cm}{2.586cm}}{\pgfqpoint{10.925cm}{2.928cm}}
+\pgfpathclose
+\pgfpathmoveto{\pgfqpoint{12.336cm}{2.928cm}}
+\pgfpathlineto{\pgfqpoint{12.336cm}{1.27cm}}
+\pgfpathlineto{\pgfqpoint{12.689cm}{1.27cm}}
+\pgfpathlineto{\pgfqpoint{12.689cm}{1.976cm}}
+\pgfpathlineto{\pgfqpoint{13.395cm}{1.976cm}}
+\pgfpathlineto{\pgfqpoint{13.395cm}{2.258cm}}
+\pgfpathlineto{\pgfqpoint{12.689cm}{2.258cm}}
+\pgfpathlineto{\pgfqpoint{12.689cm}{2.646cm}}
+\pgfpathlineto{\pgfqpoint{13.5cm}{2.646cm}}
+\pgfpathlineto{\pgfqpoint{13.5cm}{2.928cm}}
+\pgfpathclose
+\pgfpathmoveto{\pgfqpoint{14.328cm}{2.657cm}}
+\pgfpathcurveto{\pgfqpoint{14.423cm}{2.658cm}}{\pgfqpoint{14.516cm}{2.648cm}}{\pgfqpoint{14.579cm}{2.604cm}}
+\pgfpathcurveto{\pgfqpoint{15.006cm}{2.311cm}}{\pgfqpoint{14.221cm}{2.187cm}}{\pgfqpoint{14.065cm}{2.187cm}}
+\pgfpathlineto{\pgfqpoint{14.065cm}{2.646cm}}
+\pgfpathcurveto{\pgfqpoint{14.135cm}{2.646cm}}{\pgfqpoint{14.233cm}{2.657cm}}{\pgfqpoint{14.328cm}{2.657cm}}
+\pgfpathclose
+\pgfusepath{fill}
+\pgfpathmoveto{\pgfqpoint{16.005cm}{4.367cm}}
+\pgfpathlineto{\pgfqpoint{18.475cm}{4.367cm}}
+\pgfpathlineto{\pgfqpoint{18.475cm}{7.366cm}}
+\pgfpathlineto{\pgfqpoint{20.274cm}{7.366cm}}
+\pgfpathlineto{\pgfqpoint{20.274cm}{8.989cm}}
+\pgfpathlineto{\pgfqpoint{18.475cm}{8.989cm}}
+\pgfpathcurveto{\pgfqpoint{18.475cm}{9.305cm}}{\pgfqpoint{18.424cm}{9.67cm}}{\pgfqpoint{18.507cm}{9.977cm}}
+\pgfpathcurveto{\pgfqpoint{18.722cm}{10.785cm}}{\pgfqpoint{19.682cm}{10.591cm}}{\pgfqpoint{20.309cm}{10.541cm}}
+\pgfpathlineto{\pgfqpoint{20.309cm}{12.375cm}}
+\pgfpathcurveto{\pgfqpoint{19.302cm}{12.419cm}}{\pgfqpoint{18.21cm}{12.605cm}}{\pgfqpoint{17.275cm}{12.093cm}}
+\pgfpathcurveto{\pgfqpoint{16.127cm}{11.472cm}}{\pgfqpoint{16.005cm}{10.294cm}}{\pgfqpoint{16.005cm}{9.13cm}}
+\pgfpathlineto{\pgfqpoint{16.005cm}{4.367cm}}
+\pgfusepath{fill}
+\pgfpathmoveto{\pgfqpoint{8.95cm}{9.024cm}}
+\pgfpathlineto{\pgfqpoint{8.879cm}{9.024cm}}
+\pgfpathcurveto{\pgfqpoint{8.456cm}{10.031cm}}{\pgfqpoint{7.711cm}{10.329cm}}{\pgfqpoint{6.692cm}{10.329cm}}
+\pgfpathlineto{\pgfqpoint{6.692cm}{1.263cm}}
+\pgfpathlineto{\pgfqpoint{8.985cm}{1.263cm}}
+\pgfpathlineto{\pgfqpoint{8.985cm}{5.249cm}}
+\pgfpathcurveto{\pgfqpoint{8.985cm}{6.073cm}}{\pgfqpoint{8.935cm}{7.001cm}}{\pgfqpoint{9.33cm}{7.754cm}}
+\pgfpathcurveto{\pgfqpoint{9.832cm}{8.707cm}}{\pgfqpoint{11.605cm}{8.986cm}}{\pgfqpoint{12.195cm}{7.966cm}}
+\pgfpathcurveto{\pgfqpoint{12.785cm}{6.96cm}}{\pgfqpoint{12.548cm}{5.483cm}}{\pgfqpoint{12.548cm}{4.367cm}}
+\pgfpathlineto{\pgfqpoint{14.982cm}{4.367cm}}
+\pgfpathcurveto{\pgfqpoint{14.982cm}{5.92cm}}{\pgfqpoint{15.343cm}{8.055cm}}{\pgfqpoint{14.417cm}{9.412cm}}
+\pgfpathcurveto{\pgfqpoint{13.254cm}{11.105cm}}{\pgfqpoint{9.841cm}{10.908cm}}{\pgfqpoint{8.95cm}{9.024cm}}
+\pgfusepath{fill}
+\pgfpathmoveto{\pgfqpoint{3.517cm}{10.294cm}}
+\pgfpathlineto{\pgfqpoint{5.704cm}{10.294cm}}
+\pgfpathlineto{\pgfqpoint{5.704cm}{1.263cm}}
+\pgfpathlineto{\pgfqpoint{3.517cm}{1.263cm}}
+\pgfpathclose
+\pgfusepath{fill}
+\definecolor{eps2pgf_color}{rgb}{0.782353,0.231373,0.211765}\pgfsetstrokecolor{eps2pgf_color}\pgfsetfillcolor{eps2pgf_color}
+\pgfpathmoveto{\pgfqpoint{1.012cm}{3.786cm}}
+\pgfpathcurveto{\pgfqpoint{0.05cm}{3.606cm}}{\pgfqpoint{-0.306cm}{2.38cm}}{\pgfqpoint{0.295cm}{1.651cm}}
+\pgfpathcurveto{\pgfqpoint{0.616cm}{1.263cm}}{\pgfqpoint{1.135cm}{1.148cm}}{\pgfqpoint{1.612cm}{1.244cm}}
+\pgfpathcurveto{\pgfqpoint{2.459cm}{1.414cm}}{\pgfqpoint{2.854cm}{2.437cm}}{\pgfqpoint{2.44cm}{3.168cm}}
+\pgfpathcurveto{\pgfqpoint{2.153cm}{3.674cm}}{\pgfqpoint{1.572cm}{3.891cm}}{\pgfqpoint{1.012cm}{3.786cm}}
+\pgfusepath{fill}
+\definecolor{eps2pgf_color}{rgb}{0.960784,0.709804,0.639216}\pgfsetstrokecolor{eps2pgf_color}\pgfsetfillcolor{eps2pgf_color}
+\pgfpathmoveto{\pgfqpoint{2.07cm}{3.591cm}}
+\pgfpathlineto{\pgfqpoint{2.106cm}{3.556cm}}
+\pgfpathclose
+\pgfpathmoveto{\pgfqpoint{0.448cm}{3.556cm}}
+\pgfpathlineto{\pgfqpoint{0.483cm}{3.521cm}}
+\pgfpathlineto{\pgfqpoint{0.448cm}{3.556cm}}
+\pgfusepath{fill}
+\definecolor{eps2pgf_color}{rgb}{0.629412,0.298039,0.227451}\pgfsetstrokecolor{eps2pgf_color}\pgfsetfillcolor{eps2pgf_color}
+\pgfpathmoveto{\pgfqpoint{2.141cm}{3.521cm}}
+\pgfpathlineto{\pgfqpoint{2.176cm}{3.485cm}}
+\pgfpathclose
+\pgfpathmoveto{\pgfqpoint{0.377cm}{3.485cm}}
+\pgfpathlineto{\pgfqpoint{0.412cm}{3.45cm}}
+\pgfpathclose
+\pgfpathmoveto{\pgfqpoint{0.342cm}{3.45cm}}
+\pgfpathlineto{\pgfqpoint{0.377cm}{3.415cm}}
+\pgfpathlineto{\pgfqpoint{0.342cm}{3.45cm}}
+\pgfusepath{fill}
+\definecolor{eps2pgf_color}{rgb}{0.960784,0.709804,0.639216}\pgfsetstrokecolor{eps2pgf_color}\pgfsetfillcolor{eps2pgf_color}
+\pgfpathmoveto{\pgfqpoint{2.494cm}{3.062cm}}
+\pgfpathlineto{\pgfqpoint{2.529cm}{3.027cm}}
+\pgfpathclose
+\pgfpathmoveto{\pgfqpoint{0.06cm}{3.027cm}}
+\pgfpathlineto{\pgfqpoint{0.095cm}{2.992cm}}
+\pgfpathlineto{\pgfqpoint{0.06cm}{3.027cm}}
+\pgfusepath{fill}
+\definecolor{eps2pgf_color}{rgb}{0.913725,0.407843,0.341176}\pgfsetstrokecolor{eps2pgf_color}\pgfsetfillcolor{eps2pgf_color}
+\pgfpathmoveto{\pgfqpoint{0.942cm}{1.263cm}}
+\pgfpathlineto{\pgfqpoint{0.977cm}{1.228cm}}
+\pgfpathclose
+\pgfpathmoveto{\pgfqpoint{1.612cm}{1.263cm}}
+\pgfpathlineto{\pgfqpoint{1.647cm}{1.228cm}}
+\pgfpathlineto{\pgfqpoint{1.612cm}{1.263cm}}
+\pgfusepath{fill}
+\definecolor{eps2pgf_color}{rgb}{0.782353,0.231373,0.211765}\pgfsetstrokecolor{eps2pgf_color}\pgfsetfillcolor{eps2pgf_color}
+\pgfpathmoveto{\pgfqpoint{10.608cm}{0.564cm}}
+\pgfpathlineto{\pgfqpoint{18.475cm}{0.564cm}}
+\pgfpathlineto{\pgfqpoint{18.475cm}{0cm}}
+\pgfpathlineto{\pgfqpoint{10.608cm}{0cm}}
+\pgfpathclose
+\pgfusepath{fill}
+\end{pgfscope}
+\end{pgfscope}
+\end{pgfscope}
+\end{tikzpicture}
+}
+
+
+%%%%%% Package options
+\DeclareOption{no-logo}{
+\renewcommand*\putlogo{}
+}
+
+
+%%%% Execute package options
+\ProcessOptions%
+\relax
+
+
+\mode<all>
